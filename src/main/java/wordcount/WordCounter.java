@@ -1,6 +1,7 @@
 package wordcount;/* ......................................................................................... */
 
 import java.io.*;
+import java.net.URISyntaxException;
 import java.util.*;
 import java.util.concurrent.*;
 
@@ -159,9 +160,9 @@ public class WordCounter {
 
 /* ......................................................................................... */
     
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, URISyntaxException {
         WordCounter wordCounter = new WordCounter();
-        Folder folder = Folder.fromDirectory(new File(args[0]));
+        Folder folder = Folder.fromDirectory(new File(WordCounter.class.getClassLoader().getResource(args[0]).toURI()));
         
         final int repeatCount = Integer.decode(args[2]);
         long counts;
