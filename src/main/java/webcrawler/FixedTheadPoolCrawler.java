@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-//reference: http://www.javaworld.com/article/2078440/enterprise-java/java-tip-when-to-use-forkjoinpool-vs-executorservice.html?page=2
+// reference: http://www.javaworld.com/article/2078440/enterprise-java/java-tip-when-to-use-forkjoinpool-vs-executorservice.html?page=2
 
 public class FixedTheadPoolCrawler implements LinkHandler {
 
@@ -48,9 +48,6 @@ public class FixedTheadPoolCrawler implements LinkHandler {
         startNewThread(startingURL);
     }
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) throws Exception {
         new FixedTheadPoolCrawler("https://web.mit.edu", 64).startCrawling();
     }

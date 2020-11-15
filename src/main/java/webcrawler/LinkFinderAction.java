@@ -10,23 +10,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.RecursiveAction;
 
-
 public class LinkFinderAction extends RecursiveAction {
 
     private static final long serialVersionUID = 1L;
     private final String url;
-    private final LinkHandler cr;
+    private final LinkHandler linkHandler;
 
-    private static final long t0 = System.nanoTime();
+    private static final long t0 = System.currentTimeMillis();
 
-    public LinkFinderAction(String url, LinkHandler cr) {
+    public LinkFinderAction(String url, LinkHandler linkHandler) {
         this.url = url;
-        this.cr = cr;
+        this.linkHandler = linkHandler;
     }
 
     @Override
     public void compute() {
-        if (!cr.visited(url)) {
+        if (!linkHandler.visited(url)) {
             try {
                 List<RecursiveAction> actions = new ArrayList<>();
                 URL uriLink = new URL(url);
@@ -37,20 +36,18 @@ public class LinkFinderAction extends RecursiveAction {
                     LinkTag extracted = (LinkTag) list.elementAt(i);
                     String link = extracted.extractLink();
 
-                    if (!link.isEmpty() && !cr.visited(link)) {
-                        actions.add(new LinkFinderAction(link, cr));
+                    if (!link.isEmpty() && !linkHandler.visited(link)) {
+                        actions.add(new LinkFinderAction(link, linkHandler));
                     }
                 }
-                cr.addVisited(url);
+                linkHandler.addVisited(url);
 
-                if (cr.size() == 100) {
-                    System.out.println("Time for visit 100 distinct links= " + (System.nanoTime() - t0));
+                if (linkHandler.size() % 100 == 0) {
+                    System.out.printf("Visiting %d links takes %d ms%n", linkHandler.size(), System.currentTimeMillis() - t0);
                 }
 
-                //invoke recursively
                 invokeAll(actions);
-            } catch (Exception e) {
-                //ignore 404, unknown protocol or other server errors
+            } catch (Exception ignored) {
             }
         }
     }

@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.concurrent.ForkJoinPool;
 
-//reference: http://www.javaworld.com/article/2078440/enterprise-java/java-tip-when-to-use-forkjoinpool-vs-executorservice.html?page=2
+// reference: http://www.javaworld.com/article/2078440/enterprise-java/java-tip-when-to-use-forkjoinpool-vs-executorservice.html?page=2
 
 public class ForkJoinCrawler implements LinkHandler {
 
@@ -38,15 +38,12 @@ public class ForkJoinCrawler implements LinkHandler {
         return visitedLinks.contains(s);
     }
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) throws Exception {
-        new ForkJoinCrawler("https://web.mit.edu", 64).startCrawling();
-    }
-
     @Override
     public void queueLink(String link) throws Exception {
-        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("This is done in LinkFinderAction");
+    }
+
+    public static void main(String[] args) throws Exception {
+        new ForkJoinCrawler("https://web.mit.edu", 64).startCrawling();
     }
 }
